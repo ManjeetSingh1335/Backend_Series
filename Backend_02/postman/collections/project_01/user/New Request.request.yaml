@@ -1,0 +1,39 @@
+$kind: http-request
+url: http://localhost:4500/api/v1/users/register
+method: POST
+body:
+  type: formdata
+  content:
+    - type: text
+      key: fullName
+      value: manjeet singh
+      description: ""
+      disabled: false
+    - type: text
+      key: username
+      value: mannu
+      description: ""
+      disabled: false
+    - type: text
+      key: password
+      value: mannu1318
+      description: ""
+      disabled: false
+    - type: text
+      key: email
+      value: mannu@gmaikl.com
+      description: ""
+      disabled: false
+    - type: file
+      key: avatar
+      src:
+        - postman-cloud:///1f1b4044-a55c-4580-a30d-9590688e10b2
+      description: ""
+      disabled: false
+    - type: file
+      key: coverImage
+      src:
+        - postman-cloud:///1f1b4044-a55c-4580-a30d-9590688e10b2
+      description: ""
+      disabled: false
+order: 1789827530634
