@@ -117,4 +117,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Postman files
+.postman/
+postman/
+
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
+
