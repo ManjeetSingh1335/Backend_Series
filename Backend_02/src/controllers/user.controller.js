@@ -178,13 +178,13 @@ const refreshAccessToken=asyncHandler(async(req, res)=>{
         }
 
    
-        const {accessToken, refreshToken}=await generateAccessAndRefreshToken(user._id)
+        const {accessToken, newrefreshToken}=await generateAccessAndRefreshToken(user._id)
 
         return res
         .status(200)
         .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options)
-        .json(new ApiResponse(200, {accessToken, refreshToken}, "Access token refreshed"))
+        .cookie("refreshToken", newrefreshToken, options)
+        .json(new ApiResponse(200, {accessToken, refreshToken: newrefreshToken}, "Access token refreshed"))
 
     }catch(error){
         throw new ApiError(401, error?.message || "Invalid refresh token")
