@@ -15,7 +15,7 @@ const generateAccessAndRefreshToken=async(userId)=>{
         user.refreshToken=refreshToken
         await user.save({validateBeforeSave: false})
 
-        return {refreshToken, accessToken};
+        return {accessToken, refreshToken};
     }catch(error){
         throw new ApiError(500, "Something went wrong while generating referesh and access token")
     }
@@ -177,19 +177,14 @@ const refreshAccessToken=asyncHandler(async(req, res)=>{
             secure: true
         }
 
+   
         const {accessToken, refreshToken}=await generateAccessAndRefreshToken(user._id)
 
         return res
         .status(200)
         .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken",newrefreshToken, options)
-        .json(
-            new ApiResponse(
-                200,
-                {accessToken, refreshToken: newrefreshToken},
-                "Access token refreshed"
-            )
-        )
+        .cookie("refreshToken", refreshToken, options)
+        .json(new ApiResponse(200, {accessToken, refreshToken}, "Access token refreshed"))
 
     }catch(error){
         throw new ApiError(401, error?.message || "Invalid refresh token")
