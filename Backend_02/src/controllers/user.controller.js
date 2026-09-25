@@ -3,7 +3,7 @@ import {ApiError} from "../utils/ApiError.js"
 import {User} from "../models/user.model.js"
 import {uploadOnCloudinary, deleteOnCloudinary} from "../utils/cloudinary.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
-import moongoose from "mongoose"
+import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
 
 const generateAccessAndRefreshToken=async(userId)=>{
@@ -15,7 +15,7 @@ const generateAccessAndRefreshToken=async(userId)=>{
         user.refreshToken=refreshToken
         await user.save({validateBeforeSave: false})
 
-        return {accessToken, refreshToken};
+        return {accessToken, refreshToken}
     }catch(error){
         throw new ApiError(500, "Something went wrong while generating referesh and access token")
     }
@@ -169,7 +169,6 @@ const refreshAccessToken=asyncHandler(async(req, res)=>{
 
         if(incomingRefreshToken!==user?.refreshToken){
             throw new ApiError(401, "Refresh token is expired or used")
-            
         }
     
         const options={
@@ -177,14 +176,13 @@ const refreshAccessToken=asyncHandler(async(req, res)=>{
             secure: true
         }
 
-   
-        const {accessToken, refreshToken: newRefreshToken}=await generateAccessAndRefreshToken(user._id)
+        const {accessToken, refreshToken}=await generateAccessAndRefreshToken(user._id)
 
         return res
         .status(200)
         .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", newRefreshToken, options)
-        .json(new ApiResponse(200, {accessToken, refreshToken: newRefreshToken}, "Access token refreshed"))
+        .cookie("refreshToken", refreshToken, options)
+        .json(new ApiResponse(200, {accessToken, refreshToken}, "Access token refreshed successfully"))
 
     }catch(error){
         throw new ApiError(401, error?.message || "Invalid refresh token")
